@@ -54,8 +54,15 @@ Driver-Fatigue-Detection/
 ├── style.css
 ├── script.js
 ├── README.md
+
+
 🙋‍♂️ Author
+
+
 Made with ❤️ by Sunil Kumar Reddy Marthula
 
+
 🌐 License
+
+
 This project is open-source and available under the MIT License
