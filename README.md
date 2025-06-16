@@ -1,39 +1,58 @@
 # 🚗 Driver Fatigue Detection System
 
-A real-time web-based system that detects **driver drowsiness** and **facial expressions** using `face-api.js` and your webcam. This system can help prevent accidents by alerting drivers when signs of fatigue are detected.
+A real-time, browser-based fatigue detection app that uses your webcam to monitor facial expressions and eye aspect ratio (EAR) to detect signs of drowsiness. Built using **face-api.js**.
 
 ---
 
-## 📸 How It Works
+## 🔍 Features
 
-- Uses your **webcam** to capture live video.
-- Detects **facial landmarks** and computes **Eye Aspect Ratio (EAR)**.
-- If eyes are closed for a certain number of frames, the system triggers a **drowsiness alert**.
-- Also detects **facial expressions** like happy, sad, angry, etc.
+- 👁️ Eye Aspect Ratio (EAR)–based Drowsiness Detection
+- 🙂 Facial Expression Recognition
+- 📢 Visual & Audio Alerts
+- 🧪 Test Mode Button (simulate fatigue alerts)
+- 📱 Fully Responsive UI (mobile friendly)
+- 💬 Feedback Form (static)
 
 ---
 
-## 💡 Features
+## 🖥️ Live Demo
 
-- 🔍 Real-time face and eye tracking in the browser.
-- ⚠️ Visual and audio alerts for drowsiness.
-- 🧠 Emotion classification using pre-trained face-api.js models.
-- 🌐 No server required – runs fully on the client side!
+👉 **[Click here to try it out!](https://sunil246-mart.github.io/Driver-Fatigue-Detection/)**
+
+---
+
+## 📷 Screenshots
+
+| Detection in Action | Alert Triggered |
+|---------------------|------------------|
+| ![Live](./screenshots/working.png) | ![Alert](./screenshots/alert.png) |
+
+> *(Add your own screenshots inside a `/screenshots` folder for display.)*
 
 ---
 
 ## 🛠️ Technologies Used
 
-- HTML, CSS, JavaScript
+- HTML5 / CSS3 / JavaScript
 - [face-api.js](https://github.com/justadudewhohacks/face-api.js)
-- WebRTC (getUserMedia API)
+- WebRTC (for accessing webcam)
+- GitHub Pages (for hosting)
 
 ---
 
-## 🚀 Getting Started
+## 🚀 How to Run Locally
 
-### 1. Clone the Repository
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/sunil246-mart/Driver-Fatigue-Detection.git
+No server needed — it's fully client-side!
+Driver-Fatigue-Detection/
+├── index.html
+├── style.css
+├── script.js
+├── README.md
+🙋‍♂️ Author
+Made with ❤️ by Sunil Kumar Reddy Marthula
 
-```bash
-git clone https://github.com/your-username/driver-fatigue-detection.git
-cd driver-fatigue-detection
+🌐 License
+This project is open-source and available under the MIT License
