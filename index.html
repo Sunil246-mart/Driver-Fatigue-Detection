@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver Fatigue Detection</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🚗 Driver Fatigue Detection System</h1>
+  <div id="videoContainer">
+    <video id="video" autoplay muted playsinline></video>
+    <canvas id="overlay"></canvas>
+  </div>
+  <div id="alertBox">⚠️ Drowsiness Detected! Please Take a Break!</div>
+  <div id="expressionBox">Detecting...</div>
+  <div id="instructions">
+    Allow camera access to start. Keep your face visible for real-time fatigue and emotion detection.
+  </div>
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <script defer src="script.js"></script>
+</body>
+</html>
