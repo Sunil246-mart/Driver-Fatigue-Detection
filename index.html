@@ -2,28 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Driver Fatigue Detection System</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Driver Fatigue Detection System</h1>
+
+  <!-- 🌗 Night/Light Mode Toggle Button -->
+  <button id="modeToggle">🌞 Switch to Light Mode</button>
+
+  <!-- Video + Overlay -->
   <div id="videoContainer">
     <video id="video" autoplay muted playsinline></video>
     <canvas id="overlay"></canvas>
   </div>
+
+  <!-- Drowsiness Alert -->
   <div id="alertBox">⚠️ Drowsiness Detected! Please Take a Break!</div>
+
+  <!-- Expression Display -->
   <div id="expressionBox">Detecting...</div>
+
+  <!-- Instructions -->
   <div id="instructions">
     Allow camera access to start. Keep your face visible for real-time fatigue and emotion detection.
   </div>
 
-  <!-- Feedback Button -->
+  <!-- Feedback Link -->
   <div style="margin-top: 16px;">
     <a href="https://forms.gle/Yf2LGPZZtbigLtMR9" target="_blank" class="feedback-btn">💬 Give Feedback</a>
   </div>
 
-  <!-- Face-api.js CDN -->
+  <!-- Scripts -->
   <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
   <script src="script.js"></script>
 </body>
