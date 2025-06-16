@@ -46,6 +46,9 @@ A real-time, browser-based fatigue detection app that uses your webcam to monito
    ```bash
    git clone https://github.com/sunil246-mart/Driver-Fatigue-Detection.git
 No server needed — it's fully client-side!
+
+
+
 Driver-Fatigue-Detection/
 ├── index.html
 ├── style.css
