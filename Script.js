@@ -129,3 +129,18 @@ modeToggle.addEventListener('click', () => {
     modeToggle.textContent = '🌞 Switch to Light Mode';
   }
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const modeToggle = document.getElementById("modeToggle");
+
+  modeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+
+    // Optional: Update button text
+    if (document.body.classList.contains("light-mode")) {
+      modeToggle.textContent = "Switch to Dark Mode";
+    } else {
+      modeToggle.textContent = "Switch to Light Mode";
+    }
+  });
+});
+
