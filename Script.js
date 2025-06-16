@@ -119,3 +119,13 @@ video.addEventListener('play', () => {
   await loadModels();
   await setupCamera();
 })();
+// 🌗 Toggle Night/Light Mode
+const modeToggle = document.getElementById('modeToggle');
+modeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  if (document.body.classList.contains('light-mode')) {
+    modeToggle.textContent = '🌙 Switch to Night Mode';
+  } else {
+    modeToggle.textContent = '🌞 Switch to Light Mode';
+  }
+});
