@@ -1,50 +1,74 @@
 const EAR_THRESHOLD = 0.25;
-const EAR_CONSEC_FRAMES = 15; // About 0.5s at ~30fps
+const EAR_CONSEC_FRAMES = 15;
 
 let closedEyesFrames = 0;
 let drowsy = false;
+let testMode = false;
 
 const video = document.getElementById('video');
 const canvas = document.getElementById('overlay');
+const ctx = canvas.getContext('2d');
 const alertBox = document.getElementById('alertBox');
 const expressionBox = document.getElementById('expressionBox');
-const ctx = canvas.getContext('2d');
+const loadingBox = document.getElementById('loadingBox');
+const testBtn = document.getElementById('testModeBtn');
 
 function playAlertSound() {
   const context = new AudioContext();
-  const oscillator = context.createOscillator();
-  const gain = context.createGain();
-
-  oscillator.type = 'sine';
-  oscillator.frequency.setValueAtTime(440, context.currentTime);
-  oscillator.connect(gain);
-  gain.connect(context.destination);
-  oscillator.start();
-  gain.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 1);
+  const o = context.createOscillator();
+  const g = context.createGain();
+  o.type = 'sine';
+  o.frequency.setValueAtTime(440, context.currentTime);
+  o.connect(g);
+  g.connect(context.destination);
+  o.start();
+  g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 1);
   setTimeout(() => {
-    oscillator.stop();
+    o.stop();
     context.close();
   }, 1200);
 }
 
 function calculateEAR(eye) {
-  function dist(p1, p2) {
-    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
-  }
+  const dist = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
   const A = dist(eye[1], eye[5]);
   const B = dist(eye[2], eye[4]);
   const C = dist(eye[0], eye[3]);
   return (A + B) / (2.0 * C);
 }
 
-async function startVideo() {
-  const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
-  video.srcObject = stream;
+testBtn.addEventListener('click', () => {
+  testMode = true;
+  alertBox.style.display = 'block';
+  playAlertSound();
+  setTimeout(() => {
+    alertBox.style.display = 'none';
+    testMode = false;
+  }, 2500);
+});
+
+async function setupCamera() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    video.srcObject = stream;
+  } catch (err) {
+    alert("Camera access is required for detection.");
+  }
 }
 
-async function onPlay() {
+async function loadModels() {
+  const url = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights/';
+  await faceapi.nets.tinyFaceDetector.loadFromUri(url);
+  await faceapi.nets.faceLandmark68Net.loadFromUri(url);
+  await faceapi.nets.faceExpressionNet.loadFromUri(url);
+}
+
+video.addEventListener('play', () => {
   const displaySize = { width: video.videoWidth, height: video.videoHeight };
-  faceapi.matchDimensions(canvas, displaySize);
+  canvas.width = displaySize.width;
+  canvas.height = displaySize.height;
+
+  loadingBox.style.display = 'none';
 
   setInterval(async () => {
     const detections = await faceapi
@@ -56,18 +80,19 @@ async function onPlay() {
 
     if (detections) {
       const resized = faceapi.resizeResults(detections, displaySize);
+      faceapi.draw.drawDetections(canvas, resized);
       faceapi.draw.drawFaceLandmarks(canvas, resized);
 
-      // EAR Calculation
-      const leftEye = resized.landmarks.getLeftEye();
-      const rightEye = resized.landmarks.getRightEye();
+      const landmarks = resized.landmarks;
+      const leftEye = landmarks.getLeftEye();
+      const rightEye = landmarks.getRightEye();
       const leftEAR = calculateEAR(leftEye);
       const rightEAR = calculateEAR(rightEye);
       const avgEAR = (leftEAR + rightEAR) / 2.0;
 
       if (avgEAR < EAR_THRESHOLD) {
         closedEyesFrames++;
-        if (closedEyesFrames >= EAR_CONSEC_FRAMES && !drowsy) {
+        if (closedEyesFrames >= EAR_CONSEC_FRAMES && !drowsy && !testMode) {
           drowsy = true;
           alertBox.style.display = 'block';
           playAlertSound();
@@ -78,24 +103,19 @@ async function onPlay() {
         alertBox.style.display = 'none';
       }
 
-      // Expression
       const expressions = detections.expressions;
-      const maxExp = Object.keys(expressions).reduce((a, b) =>
-        expressions[a] > expressions[b] ? a : b
-      );
-      expressionBox.textContent = `Expression: ${maxExp}`;
+      const sorted = Object.entries(expressions).sort((a, b) => b[1] - a[1]);
+      expressionBox.textContent = `Expression: ${sorted[0][0]} 😐`;
     } else {
+      expressionBox.textContent = 'Face Not Detected';
       alertBox.style.display = 'none';
-      expressionBox.textContent = 'Detecting...';
+      closedEyesFrames = 0;
+      drowsy = false;
     }
   }, 100);
-}
-
-// Load models and start
-Promise.all([
-  faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights'),
-  faceapi.nets.faceLandmark68Net.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights'),
-  faceapi.nets.faceExpressionNet.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights')
-]).then(startVideo).then(() => {
-  video.addEventListener('playing', onPlay);
 });
+
+(async function () {
+  await loadModels();
+  await setupCamera();
+})();
