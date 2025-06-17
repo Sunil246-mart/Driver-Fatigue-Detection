@@ -96,6 +96,8 @@ video.addEventListener('play', () => {
           drowsy = true;
           alertBox.style.display = 'block';
           playAlertSound();
+          captureScreenshot();
+          logDrowsinessEvent(maxExpression);
         }
       } else {
         closedEyesFrames = 0;
