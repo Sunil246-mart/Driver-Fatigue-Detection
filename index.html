@@ -9,19 +9,21 @@
 <body>
   <h1>Driver Fatigue Detection System</h1>
 
-  <!-- 🌗 Night/Light Mode Toggle Button -->
-  <button id="modeToggle">Toggle Light/Dark Mode</button>
+  <!-- Night Mode Toggle -->
+  <button id="modeToggle">Switch to Light Mode</button>
 
-  <!-- Video + Overlay -->
+  <!-- Video + Canvas -->
   <div id="videoContainer">
     <video id="video" autoplay muted playsinline></video>
     <canvas id="overlay"></canvas>
   </div>
 
-  <!-- Drowsiness Alert -->
+  <!-- Fatigue Alert -->
   <div id="alertBox">⚠️ Drowsiness Detected! Please Take a Break!</div>
+  <div id="screenshotMsg">📸 Screenshot Captured!</div>
+  <a id="downloadLink" download="fatigue_screenshot.png">⬇️ Download Screenshot</a>
 
-  <!-- Expression Display -->
+  <!-- Expression -->
   <div id="expressionBox">Detecting...</div>
 
   <!-- Instructions -->
@@ -29,7 +31,7 @@
     Allow camera access to start. Keep your face visible for real-time fatigue and emotion detection.
   </div>
 
-  <!-- Feedback Link -->
+  <!-- Feedback -->
   <div style="margin-top: 16px;">
     <a href="https://forms.gle/Yf2LGPZZtbigLtMR9" target="_blank" class="feedback-btn">💬 Give Feedback</a>
   </div>
