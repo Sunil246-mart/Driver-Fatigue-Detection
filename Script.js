@@ -143,4 +143,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+// 📸 Screenshot Function
+function captureScreenshot() {
+  const screenshotMsg = document.getElementById('screenshotMsg');
+  const downloadLink = document.getElementById('downloadLink');
 
+  const snapshotCanvas = document.createElement('canvas');
+  snapshotCanvas.width = video.videoWidth;
+  snapshotCanvas.height = video.videoHeight;
+  const snapCtx = snapshotCanvas.getContext('2d');
+
+  snapCtx.drawImage(video, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+
+  const dataURL = snapshotCanvas.toDataURL('image/png');
+  screenshotMsg.style.display = 'block';
+  downloadLink.href = dataURL;
+  downloadLink.style.display = 'inline-block';
+
+  setTimeout(() => {
+    screenshotMsg.style.display = 'none';
+    downloadLink.style.display = 'none';
+  }, 10000);
+}
