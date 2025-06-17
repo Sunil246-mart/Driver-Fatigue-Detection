@@ -165,3 +165,12 @@ function captureScreenshot() {
     downloadLink.style.display = 'none';
   }, 10000);
 }
+window.addEventListener("DOMContentLoaded", () => {
+  const logList = document.getElementById('eventLog');
+  const stored = JSON.parse(localStorage.getItem("fatigueLogs")) || [];
+  stored.forEach(entry => {
+    const li = document.createElement('li');
+    li.textContent = entry;
+    logList.appendChild(li);
+  });
+});
